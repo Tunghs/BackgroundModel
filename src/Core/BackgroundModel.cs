@@ -1,0 +1,72 @@
+﻿using OpenCvSharp;
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Core
+{
+    public class BackgroundModel
+    {
+        #region Fields
+        private int[,,] backgroundArray;
+        #endregion
+
+        #region Constructor
+        public BackgroundModel()
+        {
+            backgroundArray = new int[480, 640, 256];
+        }
+
+        public BackgroundModel(Size size)
+        {
+            backgroundArray = new int[size.Height, size.Width, 256];
+        }
+
+        public BackgroundModel(int width, int height)
+        {
+            backgroundArray = new int[height, width, 256];
+        }
+        #endregion
+
+        #region Public Method
+        public void CreateBackground(List<string> videoFiles)
+        {
+            for (int index = 0; index < videoFiles.Count; index++)
+            {
+                using (VideoCapture video = new VideoCapture(videoFiles[index]))
+                {
+                    Mat frame = new Mat();
+                    while (video.PosFrames != video.FrameCount)
+                    {
+                        video.Read(frame);
+                        Cv2.CvtColor(frame, frame, ColorConversionCodes.BGR2GRAY);
+                        AppendPixel(frame);
+                    }
+                }
+            }
+        }
+
+        private unsafe void AppendPixel(Mat img)
+        {
+            byte* data = (byte*)img.DataPointer;
+            for (int y = 0; y < img.Rows; ++y)
+            {
+                for (int x = 0; x < img.Cols; ++x)
+                {
+                    int pixel = data[y * img.Step() + x * img.ElemSize()];
+                    Console.WriteLine($"{x}, {y} : {pixel}");
+                    backgroundArray[y, x, pixel]++;
+                }
+            }
+        }
+
+        public void SubtractImage(Mat img)
+        {
+
+        }
+        #endregion
+    }
+}
