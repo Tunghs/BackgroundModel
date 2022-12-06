@@ -1,4 +1,8 @@
-﻿using System;
+﻿using Core;
+
+using Microsoft.WindowsAPICodePack.Dialogs;
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +27,22 @@ namespace Demo
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void TestOpenMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            using (CommonOpenFileDialog dialog = new CommonOpenFileDialog())
+            {
+                dialog.Multiselect = true;
+                dialog.IsFolderPicker = false;
+                dialog.Filters.Add(new CommonFileDialogFilter($"AVI", ".AVI"));
+
+                if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
+                {
+                    BackgroundModel model = new BackgroundModel(640, 480);
+                    model.CreateBackground(dialog.FileNames.ToList());
+                }
+            }
         }
     }
 }

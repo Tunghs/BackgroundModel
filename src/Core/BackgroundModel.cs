@@ -39,9 +39,18 @@ namespace Core
                 using (VideoCapture video = new VideoCapture(videoFiles[index]))
                 {
                     Mat frame = new Mat();
-                    while (video.PosFrames != video.FrameCount)
+                    while (true)
                     {
                         video.Read(frame);
+                        if (frame.Empty())
+                            break;
+
+                        if (video.PosFrames > video.FrameCount)
+                            break;
+
+                        if (video.PosFrames % 24 != 0)
+                            continue;
+
                         Cv2.CvtColor(frame, frame, ColorConversionCodes.BGR2GRAY);
                         AppendPixel(frame);
                     }
@@ -51,6 +60,8 @@ namespace Core
 
         private unsafe void AppendPixel(Mat img)
         {
+            if (img.Empty())
+                return;
             byte* data = (byte*)img.DataPointer;
             for (int y = 0; y < img.Rows; ++y)
             {

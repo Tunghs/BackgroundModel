@@ -6,7 +6,35 @@
         xmlns:local="clr-namespace:Demo"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Menu>
+            <MenuItem Header="File">
+                <MenuItem Header="Open"
+                          x:Name="OpenMenuItem"/>
+            </MenuItem>
+            <MenuItem Header="Test">
+                <MenuItem Header="Open"
+                          x:Name="TestOpenMenuItem"
+                          Click="TestOpenMenuItem_Click"/>
+            </MenuItem>
+        </Menu>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Image x:Name="SourceImage"/>
+
+            <Image x:Name="ProcessingImage"/>
+        </Grid>
     </Grid>
 </Window>
