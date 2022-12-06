@@ -9,14 +9,16 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="30"/>
+            <RowDefinition Height="20"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="80"/>
         </Grid.RowDefinitions>
 
         <Menu>
             <MenuItem Header="File">
                 <MenuItem Header="Open"
-                          x:Name="OpenMenuItem"/>
+                          x:Name="OpenMenuItem"
+                          Click="OpenMenuItem_Click"/>
             </MenuItem>
             <MenuItem Header="Test">
                 <MenuItem Header="Open"
@@ -34,7 +36,59 @@
 
             <Image x:Name="SourceImage"/>
 
-            <Image x:Name="ProcessingImage"/>
+            <Image x:Name="ProcessingImage"
+                   Grid.Column="2"/>
+        </Grid>
+
+        <Grid Grid.Row="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="40"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Center">
+                <Button x:Name="PreBtn"
+                        Click="PreBtn_Click">
+                    <Viewbox Width="30" Height="30">
+                        <Canvas Width="24" Height="24">
+                            <Path Fill="Black" Data="M6,18V6H8V18H6M9.5,12L18,6V18L9.5,12Z" />
+                        </Canvas>
+                    </Viewbox>
+                </Button>
+                <Grid Margin="5 0 5 0">
+                    <Button x:Name="PlayBtn"
+                            Click="PlayBtn_Click">
+                        <Viewbox Width="30" Height="30">
+                            <Canvas Width="24" Height="24">
+                                <Path Fill="Black" Data="M8,5.14V19.14L19,12.14L8,5.14Z" />
+                            </Canvas>
+                        </Viewbox>
+                    </Button>
+                    <Button x:Name="PauseBtn"
+                            Click="PauseBtn_Click">
+                        <Viewbox Width="30" Height="30">
+                            <Canvas Width="24" Height="24">
+                                <Path Fill="Black" Data="M14,19H18V5H14M6,19H10V5H6V19Z" />
+                            </Canvas>
+                        </Viewbox>
+                    </Button>
+                </Grid>
+
+                <Button x:Name="NextBtn"
+                        Click="NextBtn_Click">
+                    <Viewbox Width="30" Height="30">
+                        <Canvas Width="24" Height="24">
+                            <Path Fill="Black" Data="M16,18H18V6H16M6,18L14.5,12L6,6V18Z" />
+                        </Canvas>
+                    </Viewbox>
+                </Button>
+            </StackPanel>
+
+            <Grid Grid.Row="2"
+                  VerticalAlignment="Center">
+                <Slider x:Name="VideoSlider"/>
+            </Grid>
         </Grid>
     </Grid>
 </Window>

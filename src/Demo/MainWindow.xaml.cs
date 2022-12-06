@@ -24,9 +24,49 @@ namespace Demo
     /// </summary>
     public partial class MainWindow : Window
     {
+        private Video video;
+
         public MainWindow()
         {
             InitializeComponent();
+            video = new Video();
+            video.UpdateImage += new Action<BitmapImage, BitmapImage>(UpdateImage);
+            video.UpdateFrames += new Action<int>(UpdateFrames);
+            PauseBtn.Visibility = Visibility.Collapsed;
+            PlayBtn.IsEnabled = false;
+        }
+
+        private void OpenMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            using (CommonOpenFileDialog dialog = new CommonOpenFileDialog())
+            {
+                dialog.Multiselect = false;
+                dialog.IsFolderPicker = false;
+                dialog.Filters.Add(new CommonFileDialogFilter($"AVI", ".AVI"));
+
+                if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
+                {
+                    video.Load(dialog.FileName);
+                    PlayBtn.IsEnabled = true;
+                }
+            }
+        }
+
+        private void UpdateImage(BitmapImage image, BitmapImage processingImage)
+        {
+            System.Windows.Application.Current.Dispatcher.BeginInvoke(new Action(delegate ()
+            {
+                SourceImage.Source = image;
+                ProcessingImage.Source = processingImage;
+            }));
+        }
+
+        private void UpdateFrames(int posFrames)
+        {
+            System.Windows.Application.Current.Dispatcher.BeginInvoke(new Action(delegate ()
+            {
+                
+            }));
         }
 
         private void TestOpenMenuItem_Click(object sender, RoutedEventArgs e)
@@ -43,6 +83,36 @@ namespace Demo
                     model.CreateBackground(dialog.FileNames.ToList());
                 }
             }
+        }
+
+        private void PlayBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (!video.IsPlay())
+            {
+                Task.Run(() =>
+                {
+                    video.Play();
+                });
+            }
+
+            video.Pause();
+            PauseBtn.Visibility = Visibility.Visible;
+        }
+
+        private void PauseBtn_Click(object sender, RoutedEventArgs e)
+        {
+            video.Pause();
+            PauseBtn.Visibility = Visibility.Collapsed;
+        }
+
+        private void PreBtn_Click(object sender, RoutedEventArgs e)
+        {
+            video.Previous();
+        }
+
+        private void NextBtn_Click(object sender, RoutedEventArgs e)
+        {
+            video.Next();
         }
     }
 }
