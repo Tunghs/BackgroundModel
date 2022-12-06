@@ -47,6 +47,8 @@ namespace Demo
                 if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
                 {
                     video.Load(dialog.FileName);
+                    VideoSlider.Value = 0;
+                    VideoSlider.Maximum = video.MaxFrames();
                     PlayBtn.IsEnabled = true;
                 }
             }
@@ -65,7 +67,7 @@ namespace Demo
         {
             System.Windows.Application.Current.Dispatcher.BeginInvoke(new Action(delegate ()
             {
-                
+                VideoSlider.Value = posFrames;
             }));
         }
 
@@ -91,11 +93,11 @@ namespace Demo
             {
                 Task.Run(() =>
                 {
-                    video.Play();
+                    video.PlayVideo();
                 });
             }
 
-            video.Pause();
+            video.Play();
             PauseBtn.Visibility = Visibility.Visible;
         }
 
@@ -113,6 +115,11 @@ namespace Demo
         private void NextBtn_Click(object sender, RoutedEventArgs e)
         {
             video.Next();
+        }
+
+        private void VideoSlider_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            video.SetFrames((int)VideoSlider.Value);
         }
     }
 }

@@ -87,7 +87,8 @@
 
             <Grid Grid.Row="2"
                   VerticalAlignment="Center">
-                <Slider x:Name="VideoSlider"/>
+                <Slider x:Name="VideoSlider"
+                        PreviewMouseLeftButtonUp="VideoSlider_PreviewMouseLeftButtonUp"/>
             </Grid>
         </Grid>
     </Grid>

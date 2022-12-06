@@ -20,6 +20,7 @@ namespace Core
         private bool isPlay = false;
         private bool canPlay = false;
         private bool isPause = true;
+        private bool state = false;
         #endregion
 
         #region Event
@@ -50,9 +51,24 @@ namespace Core
             return isPlay;
         }
 
+        public void Play()
+        {
+            isPause = false;
+            state = true;
+        }
+
         public void Pause()
         {
-            isPause = !isPause;
+            isPause = true;
+            state = false;
+        }
+
+        public void SetFrames(int frames)
+        {
+            bool prevPauseState = isPause;
+            isPause = true;
+            video.PosFrames = frames;
+            isPause = prevPauseState;
         }
 
         public void Previous()
@@ -90,7 +106,7 @@ namespace Core
             }
         }
 
-        public void Play()
+        public void PlayVideo()
         {
             if (!canPlay)
                 return;
