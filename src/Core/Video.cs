@@ -21,6 +21,9 @@ namespace Core
         private bool canPlay = false;
         private bool isPause = true;
         private bool state = false;
+
+        private BackgroundSubtractorMOG2 _mog;
+        Mat _remove = new Mat();
         #endregion
 
         #region Event
@@ -30,7 +33,7 @@ namespace Core
 
         public Video()
         {
-
+            _mog = BackgroundSubtractorMOG2.Create();
         }
 
         public void Load(string videoFilePath)
@@ -134,11 +137,21 @@ namespace Core
 
         private void UpdateFrame()
         {
-            Mat gray = new Mat();
-            Cv2.CvtColor(frame, gray, ColorConversionCodes.BGR2GRAY);
-            UpdateImage?.Invoke(MatToBitmapImage(frame), MatToBitmapImage(gray));
+            // Mat gray = new Mat();
+            // Cv2.CvtColor(frame, gray, ColorConversionCodes.BGR2GRAY);
+
+            // Cv2.ImWrite(@"C:\Users\dljdg\Documents\ss\frame0.png", gray);
+            _mog.Apply(frame, _remove);
+            UpdateImage?.Invoke(MatToBitmapImage(frame), MatToBitmapImage(_remove));
             UpdateFrames?.Invoke(video.PosFrames);
         }
+
+        #region ImageProcessing
+        private void BackgroundSubtract()
+        {
+
+        }
+        #endregion
 
         private BitmapImage MatToBitmapImage(Mat obj)
         {
