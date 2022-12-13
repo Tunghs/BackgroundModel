@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Text;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -149,8 +150,10 @@ namespace Core
         #region ImageProcessing
         private void BackgroundSubtract()
         {
-
+            int dd = 0;
+            int ds = 0;
         }
+
         #endregion
 
         private BitmapImage MatToBitmapImage(Mat obj)
