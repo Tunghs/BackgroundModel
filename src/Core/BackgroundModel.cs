@@ -11,23 +11,23 @@ namespace Core
     public class BackgroundModel
     {
         #region Fields
-        private int[,,] backgroundArray;
+        public int[,,] BackgroundArray;
         #endregion
 
         #region Constructor
         public BackgroundModel()
         {
-            backgroundArray = new int[480, 640, 256];
+            BackgroundArray = new int[480, 640, 256];
         }
 
         public BackgroundModel(Size size)
         {
-            backgroundArray = new int[size.Height, size.Width, 256];
+            BackgroundArray = new int[size.Height, size.Width, 256];
         }
 
         public BackgroundModel(int width, int height)
         {
-            backgroundArray = new int[height, width, 256];
+            BackgroundArray = new int[height, width, 256];
         }
         #endregion
 
@@ -69,7 +69,7 @@ namespace Core
                 {
                     int pixel = data[y * img.Step() + x * img.ElemSize()];
                     Console.WriteLine($"{x}, {y} : {pixel}");
-                    backgroundArray[y, x, pixel]++;
+                    BackgroundArray[y, x, pixel]++;
                 }
             }
         }
