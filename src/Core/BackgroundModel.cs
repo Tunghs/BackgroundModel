@@ -1,7 +1,10 @@
-﻿using OpenCvSharp;
+﻿using Newtonsoft.Json;
+
+using OpenCvSharp;
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -75,6 +78,17 @@ namespace Core
         }
 
         public void SubtractImage(Mat img)
+        {
+
+        }
+
+        public void Save()
+        {
+            var text = JsonConvert.SerializeObject(this, Formatting.Indented);
+            File.WriteAllText(@"", text);
+        }
+
+        public void Load()
         {
 
         }
